@@ -1,8 +1,4 @@
-"""
-This module defines the User model.
-"""
-
-from api.app import db
+from . import db
 
 
 class User(db.Model):
