@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from api.controllers.users_controller import register_user, get_all_users, get_user_by_id
 
-users_bp = Blueprint('auth', __name__)
+users_bp = Blueprint('users', __name__)
 
 
 @users_bp.route('/register', methods=['POST'])
