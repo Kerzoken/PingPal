@@ -11,7 +11,7 @@ class Message(db.Model):
     date_created = db.Column(
         db.DateTime, default=db.func.current_timestamp(), nullable=False)
 
-    reciever_id = db.Column(
+    receiver_id = db.Column(
         db.Integer, db.ForeignKey('user.id'), nullable=False)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
