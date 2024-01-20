@@ -8,122 +8,43 @@
         "/users/all": {
             "get": {
                 "description": "Get all users",
+                "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "Returns all users"
                     }
-                },
-                "tags": ["Users"]
+                }
             }
         },
         "/users/register": {
             "post": {
                 "description": "Register a new user",
-                "responses": {
-                    "200": {
-                        "description": "User created successfully"
-                    }
-                },
                 "consumes": ["application/json"],
+                "produces": ["application/json"],
                 "parameters": [
                     {
+                        "name": "user data",
                         "in": "body",
-                        "name": "body",
-                        "description": "User object",
+                        "description": "JSON data for the user",
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/User"
                         }
                     }
                 ],
-                "tags": ["Users"]
-            }
-        },
-        "/messages/send": {
-            "post": {
-                "description": "Send a message",
                 "responses": {
                     "200": {
-                        "description": "Message sent successfully"
+                        "description": "User registered successfully"
+                    },
+                    "400": {
+                        "description": "Invalid request data"
                     }
-                },
-                "consumes": ["application/json"],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "JSON object",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Message"
-                        }
-                    }
-                ],
-                "tags": ["Messages"]
-            }
-        },
-        "/messages/all/{user_id}": {
-            "get": {
-                "description": "Get all messages for a specific user",
-                "responses": {
-                    "200": {
-                        "description": "Returns all messages for the user"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "user_id",
-                        "type": "integer",
-                        "required": true,
-                        "description": "User ID"
-                    }
-                ],
-                "tags": ["Messages"]
-            }
-        },
-        "/users/user/{user_id}": {
-            "get": {
-                "description": "Get user by ID",
-                "responses": {
-                    "200": {
-                        "description": "Returns user information"
-                    }
-                },
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "user_id",
-                        "type": "integer",
-                        "required": true,
-                        "description": "User ID"
-                    }
-                ],
-                "tags": ["Users"]
+                }
             }
         }
     },
     "definitions": {
-        "Message": {
-            "type": "object",
-            "properties": {
-                "sender_id": {
-                    "type": "integer"
-                },
-                "receiver_id": {
-                    "type": "integer"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "date_created": {
-                    "type": "string",
-                    "format": "date-time"
-                }
-            }
-        },
         "User": {
-            "type": "object",
             "properties": {
                 "username": {
                     "type": "string"
@@ -135,10 +56,10 @@
                     "type": "string"
                 },
                 "bio": {
-                    "type": "string",
-                    "required": false
+                    "type": "string"
                 }
-            }
+            },
+            "required": ["username", "password", "email"]
         }
     }
 }
