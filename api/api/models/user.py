@@ -1,4 +1,8 @@
-from . import db
+"""
+This module defines the User model.
+"""
+
+from api.app import db
 
 
 class User(db.Model):
