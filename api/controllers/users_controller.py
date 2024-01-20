@@ -1,4 +1,4 @@
-from flask import jsonify, make_response
+from flask import jsonify
 from api.models.user import User
 from api.db import db
 
@@ -10,24 +10,20 @@ def register_user(request):
     bio = request.json.get('bio')
 
     if not username or not password or not email:
-        return make_response(
-            jsonify(
-                {'message': 'Please provide all required fields(username, password, email)'}),
-            400
-        )
+        return jsonify({'message': 'Please provide all required fields(username, password, email)'})
 
     user = User.query.filter_by(username=username).first()
     if user:
-        return make_response(jsonify({'message': 'Username already exists'}), 400)
+        return jsonify({'message': 'Username already exists'})
 
     user = User.query.filter_by(email=email).first()
     if user:
-        return make_response(jsonify({'message': 'Email already exists'}), 400)
+        return jsonify({'message': 'Email already exists'})
 
     user = User(username=username, password=password, email=email, bio=bio)
     db.session.add(user)
     db.session.commit()
-    return make_response(jsonify({'message': 'User created successfully'}), 200)
+    return jsonify({'message': 'User created successfully'})
 
 
 def get_all_users(request):
@@ -42,14 +38,14 @@ def get_all_users(request):
         user_data['bio'] = user.bio
         users_list.append(user_data)
 
-    return make_response(jsonify({'users': users_list}), 200)
+    return jsonify({'users': users_list})
 
 
 def get_user_by_id(request, user_id):
     user = User.query.get(user_id)
 
     if not user:
-        return make_response(jsonify({'message': 'No user found'}), 404)
+        return jsonify({'message': 'No user found'})
 
     user_data = {}
     user_data['id'] = user.id
@@ -57,4 +53,4 @@ def get_user_by_id(request, user_id):
     user_data['email'] = user.email
     user_data['bio'] = user.bio
 
-    return make_response(jsonify({'user': user_data}), 200)
+    return jsonify({'user': user_data})

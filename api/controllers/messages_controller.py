@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import jsonify, make_response
+from flask import jsonify
 from api.models.message import Message
 from api.models.user import User
 from api.db import db
@@ -11,11 +11,7 @@ def send_message(request):
     message = request.json.get('message')
 
     if not sender_id or not receiver_id or not message:
-        return make_response(
-            jsonify(
-                {'message': 'Please provide all required fields(sender_id, receiver_id, message)'}),
-            400
-        )
+        return jsonify({'message': 'Please provide all required fields(sender_id, receiver_id, message)'})
 
     date_created = request.json.get('date_created')
     if not date_created:
@@ -27,13 +23,13 @@ def send_message(request):
                       receiver_id=receiver_id, message=message, date_created=date_created)
     db.session.add(message)
     db.session.commit()
-    return make_response(jsonify({'message': 'Message sent successfully'}), 201)
+    return jsonify({'message': 'Message sent successfully'})
 
 
 def get_all_messages_for_user(request, user_id):
     user = User.query.get(user_id)
     if not user:
-        return make_response(jsonify({'message': 'No user found'}), 404)
+        return jsonify({'message': 'No user found'})
 
     from_date = request.args.get('from_date')
     sender_id = request.args.get('sender_id')
@@ -47,7 +43,7 @@ def get_all_messages_for_user(request, user_id):
     if sender_id:
         sender = User.query.get(sender_id)
         if not sender:
-            return make_response(jsonify({'message': 'No sender found'}), 404)
+            return jsonify({'message': 'No user found'})
 
         messages = Message.query.filter(Message.receiver_id == user_id,
                                         Message.sender_id == sender_id).all()
@@ -65,4 +61,4 @@ def get_all_messages_for_user(request, user_id):
         message_data['date_created'] = message.date_created
         messages_list.append(message_data)
 
-    return make_response(jsonify({'messages': messages_list}), 200)
+    return jsonify({'messages': messages_list})

@@ -22,7 +22,6 @@ instance/
 .env.*
 
 # Database 
-*.sqlite3
-*.db
 db
-migrations/
+*.sqlite3
+
