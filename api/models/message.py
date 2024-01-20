@@ -1,4 +1,4 @@
-from api.db import db
+from . import db
 
 
 class Message(db.Model):

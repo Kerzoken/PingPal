@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import jsonify
 from api.models.message import Message
 from api.models.user import User
-from api.db import db
+from api.models import db
 
 
 def send_message(request):
@@ -16,8 +16,6 @@ def send_message(request):
     date_created = request.json.get('date_created')
     if not date_created:
         date_created = datetime.now()
-    else:
-        date_created = datetime.strptime(date_created, '%Y-%m-%dT%H:%M:%S.%fZ')
 
     message = Message(sender_id=sender_id,
                       receiver_id=receiver_id, message=message, date_created=date_created)
