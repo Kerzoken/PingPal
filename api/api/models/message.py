@@ -1,4 +1,8 @@
-from . import db
+"""
+This module contains the Message model.
+"""
+
+from api.app import db
 
 
 class Message(db.Model):
