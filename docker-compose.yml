@@ -12,3 +12,15 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         ports:
             - "${MYSQL_PORT}:3306"
+        volumes:
+            - ./db:/var/lib/mysql
+    api:
+        build:
+            context: ./api
+            dockerfile: Dockerfile
+        environment:
+            DATABASE_URL: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE}
+        depends_on:
+            - db
+        ports:
+            - "5000:5000"
