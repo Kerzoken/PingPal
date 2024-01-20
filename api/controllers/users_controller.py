@@ -1,6 +1,6 @@
 from flask import jsonify
 from api.models.user import User
-from api.models import db
+from api.db import db
 
 
 def register_user(request):
